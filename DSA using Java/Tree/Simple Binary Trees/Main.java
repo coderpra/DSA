@@ -34,6 +34,7 @@ class BT {
 
         System.out.print("Do you want to enter the right child of " + data + " [enter only as per your choice y/n] : ");
         char choice2 = sc.next().charAt(0);
+        sc.close();
 
         if (choice2 == 'y' || choice2 == 'Y') {
             System.out.print("Enter right child of " + data);
