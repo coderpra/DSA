@@ -5,30 +5,30 @@ public class Main {
    public static void main(String [] args){
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter number of vertices and number of edges (separate them using a space like: V E): ");
-        int v = sc.nextInt();
-        int e = sc.nextInt();
+        int vertices = sc.nextInt();
+        int edges = sc.nextInt();
 
-        ArrayList<ArrayList<Integer>> list = new ArrayList<ArrayList<Integer>>(v);
+        ArrayList<ArrayList<Integer>> list = new ArrayList<ArrayList<Integer>>(vertices);
 
         // Initialize the ArrayList for each vertex
-        for (int i = 0; i < v; i++) {
+        for (int i = 0; i < vertices; i++) {
             list.add(new ArrayList<>());
         }
 
-        for (int i = 0; i < e; i++) {
+        for (int i = 0; i < edges; i++) {
             System.out.print("Enter the two vertices connected with an undirected edge (separate them using a space like: E1 E2): ");
-            int e1 = sc.nextInt();
-            int e2 = sc.nextInt();
+            int Vertix2 = sc.nextInt();
+            int Vertix1 = sc.nextInt();
 
             // Check if edge already exists
-            if (list.get(e1 - 1).contains(e2)) {
+            if (list.get(Vertix1 - 1).contains(Vertix2)) {
                 i--;
                 System.out.print("Edge already exists.\n Please Again, ");
                 continue;
             } else {
                 // Update the adjacency list for an undirected graph
-                list.get(e1 - 1).add(e2);
-                list.get(e2 - 1).add(e1);
+                list.get(Vertix1 - 1).add(Vertix2);
+                list.get(Vertix2 - 1).add(Vertix1);
             }
         }
         int f = 1;
