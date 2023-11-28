@@ -1,88 +1,38 @@
 import java.util.*;
 
-/**
- * This program calculates the number of connected islands in a 2D array.
- * Each island is represented by the value '1', and connected islands share the same number.
- */
-class Main {
+public class Main {
 
-    
-    private static void DFS(ArrayList<ArrayList<Integer>> graph, int index, ArrayList<Integer> visited) {
-        // Check if the index is out of bounds
-        if (index < 0 || index >= visited.size()) {
-            return;
-        }
+    private static ArrayList<ArrayList<Integer>> stringToGraph(ArrayList<ArrayList<String>> twoDstring) {
+        int rows = twoDstring.size();
+        int cols = twoDstring.get(0).size();
+        int noOfLands = 0;
 
-        visited.set(index, 1);
+        ArrayList<ArrayList<Integer>> inputArray = new ArrayList<>();
 
-        for (var neighbor : graph.get(index)) {
-            // Check if the neighbor is within bounds and has not been visited
-            if (neighbor >= 0 && neighbor < visited.size() && visited.get(neighbor) != 1) {
-                DFS(graph, neighbor, visited);
-            }
-        }
-    }
-
-    
-    private static int FindConnectedIslands(ArrayList<ArrayList<Integer>> graph) {
-        int size = graph.size();
-        ArrayList<Integer> visited = new ArrayList<>(size);
-
-        // Initialize the visited list to mark unvisited islands
-        for (int i = 0; i < size; i++) {
-            visited.add(0);
-        }
-
-        int connectedIslands = 0;
-
-        // Explore islands until all of them are visited
-        while (visited.contains(0)) {
-            DFS(graph, visited.indexOf(0), visited);
-            connectedIslands++;
-        }
-
-        return connectedIslands;
-    }
-
-   
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        // Read input in the form of a 2D array
-        String str1 = sc.nextLine();
-        String str2 = str1.substring(1, (str1.length() - 1)); // Omitting the first and last { , }
-        String[] input = str2.split("\\},\\{");
-        int size = input.length;
-
-        // Create a 2D array to represent islands and assign unique numbers to them
-        ArrayList<ArrayList<Integer>> inputArray = new ArrayList<>(size);
-        int noOfIslands = 1; 
-
-        for (var block : input) {
-            ArrayList<Integer> row = new ArrayList<>();
-            char[] chars = block.toCharArray();
-
-            // Assign numbers to islands based on '1' and '0'
-            for (var x : chars) {
-                if (x == '0') {
-                    row.add(0);
-                } else if (x == '1') {
-                    row.add(noOfIslands++);
+        for (int i = 0; i < rows; i++) {
+            inputArray.add(new ArrayList<>());
+            for (int j = 0; j < cols; j++) {
+                if (twoDstring.get(i).get(j).equals("1")) {
+                    inputArray.get(i).add(++noOfLands);
+                } else if (twoDstring.get(i).get(j).equals("0")) {
+                    inputArray.get(i).add(0);
+                } else {
+                    continue;
                 }
             }
-
-            inputArray.add(row);
         }
-        
-        // Create a graph to represent connections between islands
-        ArrayList<ArrayList<Integer>> graph = new ArrayList<>((noOfIslands-1));
 
-        // Initialize the graph with empty adjacency lists
-        for (int i = 0; i < (noOfIslands-1); i++) {
+        ArrayList<ArrayList<Integer>> graph = new ArrayList<>(noOfLands);
+
+        // Initialize the graph with empty lists
+        for (int i = 0; i < noOfLands; i++) {
             graph.add(new ArrayList<>());
         }
 
-        int check, currentValue;
+        int size = inputArray.size();
+        int currentValue=0, check=0;
+        int[] dx = {-1, -1, -1, 0, 0, 1, 1, 1};
+        int[] dy = {-1, 0, 1, -1, 1, -1, 0, 1};
 
         // Build the graph based on island connections
         for (int i = 0; i < size; i++) {
@@ -90,77 +40,20 @@ class Main {
                 currentValue = inputArray.get(i).get(j);
 
                 if (currentValue > 0) {
-                    // Check y-1 line
-                    if (i != 0) {
+                    currentValue--;
+                    // Check neighbors in all eight directions
+                    for (int k = 0; k < 8; k++) {
+                        int ni = i + dx[k];
+                        int nj = j + dy[k];
 
-                        // Add x,y-1
-                        check = inputArray.get(i - 1).get(j);
-                        if (check > 0 && !(graph.get(currentValue - 1).contains(check - 1))) {
-                            graph.get(currentValue - 1).add(check - 1);
-                            graph.get(check - 1).add(currentValue - 1);
-                        }
-
-                        // Add x-1,y-1
-                        if (j != 0) {
-                            check = inputArray.get(i - 1).get(j - 1);
-                            if (check > 0 && !(graph.get(currentValue - 1).contains(check - 1))) {
-                                graph.get(currentValue - 1).add(check - 1);
-                                graph.get(check - 1).add(currentValue - 1);
-                            }
-                        }
-
-                        // Add x+1,y-1
-                        if (j != (inputArray.get(i).size()) - 1) {
-                            check = inputArray.get(i - 1).get(j + 1);
-                            if (check > 0 && !(graph.get(currentValue - 1).contains(check - 1))) {
-                                graph.get(currentValue - 1).add(check - 1);
-                                graph.get(check - 1).add(currentValue - 1);
-                            }
-                        }
-                    }
-
-                    // Add x+1,y
-                    if (j != (inputArray.get(i).size()) - 1) {
-                        check = inputArray.get(i).get(j + 1);
-                        if (check > 0 && !(graph.get(currentValue - 1).contains(check - 1))) {
-                            graph.get(currentValue - 1).add(check - 1);
-                            graph.get(check - 1).add(currentValue - 1);
-                        }
-                    }
-
-                    // Add x-1,y
-                    if (j != 0) {
-                        check = inputArray.get(i).get(j - 1);
-                        if (check > 0 && !(graph.get(currentValue - 1).contains(check - 1))) {
-                            graph.get(currentValue - 1).add(check - 1);
-                            graph.get(check - 1).add(currentValue - 1);
-                        }
-                    }
-
-                    // Add y+1 line
-                    if (i != size - 1) {
-                        // Add x,y+1
-                        check = inputArray.get(i + 1).get(j);
-                        if (check > 0 && !(graph.get(currentValue - 1).contains(check - 1))) {
-                            graph.get(currentValue - 1).add(check - 1);
-                            graph.get(check - 1).add(currentValue - 1);
-                        }
-
-                        // Add x-1,y+1
-                        if (j != 0) {
-                            check = inputArray.get(i + 1).get(j - 1);
-                            if (check > 0 && !(graph.get(currentValue - 1).contains(check - 1))) {
-                                graph.get(currentValue - 1).add(check - 1);
-                                graph.get(check - 1).add(currentValue - 1);
-                            }
-                        }
-
-                        // Add x+1,y+1
-                        if (j != (inputArray.get(i).size()) - 1) {
-                            check = inputArray.get(i + 1).get(j + 1);
-                            if (check > 0 && !(graph.get(currentValue - 1).contains(check - 1))) {
-                                graph.get(currentValue - 1).add(check - 1);
-                                graph.get(check - 1).add(currentValue - 1);
+                        if (ni >= 0 && ni < size && nj >= 0 && nj < inputArray.get(i).size()) {
+                            check = inputArray.get(ni).get(nj); //storing neighbours to check if they are eligable to be called as linked land
+                            if (check > 0){
+                                check--;
+                                if(!(graph.get(currentValue).contains(check))) {
+                                   graph.get(currentValue).add(check);
+                                   graph.get(check).add(currentValue);
+                                }
                             }
                         }
                     }
@@ -168,7 +61,48 @@ class Main {
             }
         }
 
-        System.out.println(FindConnectedIslands(graph));
-       
+        return graph;
+    }
+
+    private static void DFS(ArrayList<ArrayList<Integer>> graph, int index, ArrayList<Integer> visited) {
+        visited.set(index, 1);
+        for (var neighbor : graph.get(index)) {
+            if (visited.get(neighbor) != 1) {
+                DFS(graph, neighbor, visited);
+            }
+        }
+    }
+
+    private static int countIslands(ArrayList<ArrayList<Integer>> graph) {
+        int size = graph.size();
+        ArrayList<Integer> visited = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) visited.add(0);
+        int islands = 0;
+        for (int i = 0; i < size; i++) {
+            if (visited.get(i) != 1) {
+                DFS(graph, i, visited);
+                islands++;
+            }
+        }
+        return islands;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Read input in the form of a 2D array
+        String str1 = sc.nextLine();
+        sc.close();
+        str1 = str1.substring(2, (str1.length() - 2)); // Omitting the first and last 2 [ , ]
+
+        ArrayList<ArrayList<String>> twoDstring = new ArrayList<>();
+        for (var blocks : str1.split("\\],\\[")) {
+            twoDstring.add(new ArrayList<>(Arrays.asList(blocks.split(","))));
+        }
+
+        ArrayList<ArrayList<Integer>> graph = stringToGraph(twoDstring);
+        int islandCount = countIslands(graph);
+
+        System.out.println(islandCount);
     }
 }
