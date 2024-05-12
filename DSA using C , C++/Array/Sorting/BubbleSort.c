@@ -18,20 +18,20 @@ void BubbleSortAscending(int *arr, int size)
 }
 
 
-int main()
-{
-    int n;
-    printf("Enter the size : ");
-    scanf("%d", &n);
-    int *arr = (int *)malloc(n * sizeof(int));
+// int main()
+// {
+//     int n;
+//     printf("Enter the size : ");
+//     scanf("%d", &n);
+//     int *arr = (int *)malloc(n * sizeof(int));
 
-    printf("Enter the Whole Array in same line and the elements separated by space.\n");
-    for (int i = 0; i < n; scanf("%d", &arr[i++]));
+//     printf("Enter the Whole Array in same line and the elements separated by space.\n");
+//     for (int i = 0; i < n; scanf("%d", &arr[i++]));
 
-    BubbleSortAscending(arr,n);
+//     BubbleSortAscending(arr,n);
 
-    for(int i = 0;i<n;printf("%d ",arr[i++]));
-    printf("\n");
-    free(arr);
- return 0;       
-}
+//     for(int i = 0;i<n;printf("%d ",arr[i++]));
+//     printf("\n");
+//     free(arr);
+//  return 0;       
+// }
