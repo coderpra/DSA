@@ -35,6 +35,7 @@ ll* createLinkedList() {
 }
 
 int LinkedListSize(ll* linkedlist) {
+    if(linkedlist == NULL) return 0;
     return linkedlist->noNode;
 }
 
@@ -90,7 +91,7 @@ void removeFromEnd(ll* list) {
 }
 
 void printLinkedList(ll* list) {
-    if (list->noNode == 0){
+    if (LinkedListSize(list)){
         printf("LinkedList is Empty!!\n");
         return;
     }
