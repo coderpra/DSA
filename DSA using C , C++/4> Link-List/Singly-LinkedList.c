@@ -176,6 +176,7 @@ void operationsOverLinkedList(ll* linkedlist) {
 int main() {
     ll* ll1 = createLinkedList();
     if (ll1 == NULL) {
+        printf("Linked-List Creation Has Failed!!\n");
         return 1;
     }
     operationsOverLinkedList(ll1);
