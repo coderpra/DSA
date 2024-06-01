@@ -73,7 +73,7 @@ class Stack extends RuntimeException{
         }
         if(top ==0) buttom--;
         top--;
-        return stack[top];
+        return stack[top+1];
     }
 
     public int peek()throws RuntimeException{
