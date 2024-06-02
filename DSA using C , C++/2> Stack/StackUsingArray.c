@@ -3,7 +3,7 @@
 
 static int maxSize=0;
 static int top=-1;
-int static buttom=-1;
+int static bottom=-1;
 int* stack=NULL;
 
 int* createStack(int size){
@@ -16,19 +16,19 @@ int* createStack(int size){
     return arr;
 }
 
-void resizeStack(int size){
-    int* arr = (int*)realloc(stack,size);
-    if(arr==NULL && size ==0){
-        printf("stack resize failed!!\n");
+void resizeStack(int size) {
+    int* arr = (int*)realloc(stack, size * sizeof(int));
+    if (arr == NULL) {
+        printf("Stack resize failed or out of memory!!\n");
         return;
     }
-    if(size<maxSize){
-    //free(stack);
-        top=size-1;
+    maxSize = size;
+    stack = arr;
+    if (size < maxSize) {
+        top = size - 1;
     }
-    maxSize=size;
-    stack= arr;
 }
+
 
 void increaseSize(int size){
     resizeStack(maxSize+size);
@@ -42,7 +42,7 @@ void push(int data){
         printf("Stack Overflow!!\n");
         return;
     }
-    if(top==-1) buttom++;
+    if(top==-1) bottom++;
     top++;
     stack[top]=data;
 }
@@ -52,7 +52,7 @@ void pop(){
         printf("Stack Underflow!!\n");
         return;
     }
-    if(top==0) buttom--;
+    if(top==0) bottom--;
     top--;
     printf("%d is popped.\n",stack[top+1]);
 }
