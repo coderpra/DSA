@@ -1,5 +1,5 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 typedef struct Node {
     int data;
@@ -104,18 +104,19 @@ node* insert(node* root, int key) {
     return root;
 }
 
+void inOrderTraversal(node* bstRoot, node** avlRoot) {
+    if (bstRoot == NULL) return;
+
+    inOrderTraversal(bstRoot->left, avlRoot);
+    *avlRoot = insert(*avlRoot, bstRoot->data);
+    inOrderTraversal(bstRoot->right, avlRoot);
+}
+
 node* convertBSTToAVL(node* bstRoot) {
     if (bstRoot == NULL) return NULL;
 
-    // Create an AVL tree by inserting nodes from the BST
     node* avlRoot = NULL;
-    if (bstRoot != NULL) {
-        avlRoot = insert(avlRoot, bstRoot->data);
-        if (bstRoot->left != NULL)
-            avlRoot = insert(avlRoot, bstRoot->left->data);
-        if (bstRoot->right != NULL)
-            avlRoot = insert(avlRoot, bstRoot->right->data);
-    }
+    inOrderTraversal(bstRoot, &avlRoot);
 
     return avlRoot;
 }
@@ -137,11 +138,19 @@ int main() {
     bstRoot->left->right = createNode(7);
     bstRoot->right->left = createNode(15);
     bstRoot->right->right = createNode(25);
+    bstRoot->right->right->right = createNode(26);
+    bstRoot->right->right->right->right = createNode(27);
 
+    printf("Preorder traversal of the BST tree is: ");
+    preOrder(bstRoot);
+    printf("\n");
+    
     node* avlRoot = convertBSTToAVL(bstRoot);
 
-    printf("Preorder traversal of the AVL tree is:\n");
+    printf("Preorder traversal of the AVL tree is: ");
     preOrder(avlRoot);
-
+    printf("\n");
+    free(bstRoot);
+    free(avlRoot);
     return 0;
 }
