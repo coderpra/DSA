@@ -50,14 +50,14 @@ If not, move the cookie pointer forward to find a larger cookie.
         Collections.sort(s);
 
         // Step 2: Greedy Assignment
-        int contentChildren = 0;
+        int ChildrenSatisfied = 0;
         int i = 0; // pointer for g (greed factors)
         int j = 0; // pointer for s (cookie sizes)
 
         while (i < g.size() && j < s.size()) {
             if (s.get(j) >= g.get(i)) {
                 // The current cookie can satisfy the current child
-                contentChildren++;
+                ChildrenSatisfied++;
                 i++; // move to the next child
             }
             // Move to the next cookie
@@ -65,7 +65,7 @@ If not, move the cookie pointer forward to find a larger cookie.
         }
 
         // Print the result
-        System.out.println("Number of content children: " + contentChildren);
+        System.out.println("Number of content children: " + ChildrenSatisfied);
         
 
         
