@@ -50,22 +50,21 @@ If not, move the cookie pointer forward to find a larger cookie.
         Collections.sort(s);
 
         // Step 2: Greedy Assignment
-        int ChildrenSatisfied = 0;
+        int childrenSatisfied = 0;
         int i = 0; // pointer for g (greed factors)
         int j = 0; // pointer for s (cookie sizes)
 
-        while (i < g.size() && j < s.size()) {
-            if (s.get(j) >= g.get(i)) {
-                // The current cookie can satisfy the current child
-                ChildrenSatisfied++;
-                i++; // move to the next child
-            }
-            // Move to the next cookie
-            j++;
-        }
+        while(i < g.size() && j < s.size()){ //loop will continue until check is complete either for all children or for all cooky or both
 
+            if(s.get(j)>=g.get(i)){ //checks if cooky j from array s satisfies the greed of child i from the greedy array g
+                childrenSatisfied++; //number of satisfied children inreased
+                i++; //next children from the array g
+            }
+
+            j++; //point to next cookie to check if it satisfies the greed of child i from the greedy array g
+        }
         // Print the result
-        System.out.println("Number of content children: " + ChildrenSatisfied);
+        System.out.println("Number of content children: " + childrenSatisfied);
         
 
         
