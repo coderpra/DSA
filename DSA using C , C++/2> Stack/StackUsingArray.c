@@ -3,7 +3,8 @@
 
 static int maxSize=0;
 static int top=-1;
-int static bottom=-1;
+static int bottom=-1;
+
 int* stack=NULL;
 
 int* createStack(int size){
